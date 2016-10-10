@@ -90,7 +90,11 @@ def authenticate!
     end
   else
     begin
-      @customer = Stripe::Customer.create(:description => "iOS SDK example customer")
+      @customer = Stripe::Customer.create(
+        :source => token, # obtained from Stripe.js
+        :plan => "low_1m",
+        :email => "payinguser@example.com"
+        )
     rescue Stripe::InvalidRequestError
     end
     session[:customer_id] = @customer.id
